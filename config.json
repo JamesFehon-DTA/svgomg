@@ -58,12 +58,12 @@
     {
       "id": "cleanupIds",
       "name": "Clean up IDs",
-      "enabledByDefault": true
+      "enabledByDefault": true // Careful. If two SVGs share the same ID on one page, they will conflict.
     },
     {
       "id": "removeRasterImages",
       "name": "Remove raster images",
-      "enabledByDefault": false
+      "enabledByDefault": true  // Changed from false: Prevents heavy/malicious tracking pixels
     },
     {
       "id": "removeUselessDefs",
@@ -198,12 +198,12 @@
     {
       "id": "removeDesc",
       "name": "Remove <desc>",
-      "enabledByDefault": true
+      "enabledByDefault": false  // Changed from true: Improve accessibility support
     },
     {
       "id": "removeDimensions",
       "name": "Prefer viewBox to width/height",
-      "enabledByDefault": false
+      "enabledByDefault": false // Keep false: Hardcoding dimensions prevents layout shift on some sites
     },
     {
       "id": "removeStyleElement",
@@ -213,7 +213,7 @@
     {
       "id": "removeScripts",
       "name": "Remove scripts",
-      "enabledByDefault": false
+      "enabledByDefault": true  // Change from false: Essential for XSS prevention
     },
     {
       "id": "removeOffCanvasPaths",
@@ -233,7 +233,7 @@
     {
       "id": "removeXlink",
       "name": "Replace xlink with native SVG",
-      "enabledByDefault": false
+      "enabledByDefault": true  // Changed from false: Modernises links, strips legacy namespaces
     }
   ]
 }
