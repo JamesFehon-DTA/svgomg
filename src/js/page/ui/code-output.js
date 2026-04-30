@@ -3,20 +3,16 @@ import Prism from '../prism.js';
 
 const prism = new Prism();
 
-// Allowlist-based renderer for Prism's highlighted output. Prism's `markup`
-// language only emits <span class="..."> wrappers around escaped text, so any
-// other node is discarded as defense-in-depth against an XSS sink (CWE-79).
-function appendSanitized(target, sourceNode) {
-  for (const child of sourceNode.childNodes) {
+// Prism's markup highlighter only emits <span class="..."> nodes around
+// escaped text - drop anything else to avoid an innerHTML XSS sink.
+function appendSanitized(target, source) {
+  for (const child of source.childNodes) {
     if (child.nodeType === Node.TEXT_NODE) {
-      target.append(document.createTextNode(child.nodeValue));
-    } else if (
-      child.nodeType === Node.ELEMENT_NODE &&
-      child.tagName === 'SPAN'
-    ) {
+      target.append(child.nodeValue);
+    } else if (child.tagName === 'SPAN') {
       const span = document.createElement('span');
       const className = child.getAttribute('class');
-      if (className) span.setAttribute('class', className);
+      if (className) span.className = className;
       appendSanitized(span, child);
       target.append(span);
     }
